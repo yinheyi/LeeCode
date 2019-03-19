@@ -11,7 +11,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年03月12日 星期二 22时45分46秒
-*	Modifed Time: 2019年03月13日 星期三 22时13分33秒
+*	Modifed Time: 2019年03月13日 星期三 22时16分14秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -71,6 +71,7 @@ singleon2* singleon2::GetInstance()
 	}
 	return ms_pInstance;
 }
+
 
 int main()
 {
