@@ -11,7 +11,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年04月04日 星期四 17时40分42秒
-*	Modifed Time: 2019年04月04日 星期四 23时49分24秒
+*	Modifed Time: 2019年04月05日 星期五 09时40分48秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -19,7 +19,8 @@
 
 #include <iostream>
 #include <vector>
-#include <stack>
+#include <stack>		// 用于二叉树前序/中序/后序遍历方法的循环实现
+#include <queue>		// 用于二叉树的宽度优先遍历
 
 using std::stack;
 using std::cout;
@@ -98,7 +99,8 @@ BinaryTreeNode* Rebulid_BTree(sequence& PreorderSequence_, sequence& InorderSequ
 // 前序遍历	----基于递归
 void PreorderTraversal(BinaryTreeNode* pRoot_)
 {
-	if (pRoot_ == nullptr)
+	// 为空时，直接返回了
+	if (!pRoot_)
 		return;
 
 	std::cout << pRoot_->m_nValue << " ";
@@ -109,7 +111,8 @@ void PreorderTraversal(BinaryTreeNode* pRoot_)
 // 前序遍历	----基于循环
 void PreorderTraversal_ByCycle(BinaryTreeNode* pRoot_)
 {
-	if (pRoot_ == nullptr)
+	// 为空时，直接返回
+	if (!pRoot_)
 		return;
 
 	// 需要使用到栈数据结构, 先把右子树放到栈中，再把左子树放到栈中
@@ -119,12 +122,15 @@ void PreorderTraversal_ByCycle(BinaryTreeNode* pRoot_)
 	{
 		BinaryTreeNode* _pCurrentNode = _StackNodes.top();
 		_StackNodes.pop();
-		if (_pCurrentNode != nullptr)
-		{
-			std::cout << _pCurrentNode->m_nValue << " ";
-			_StackNodes.push(_pCurrentNode->m_pRight);
-			_StackNodes.push(_pCurrentNode->m_pLeft);
-		}
+		std::cout << _pCurrentNode->m_nValue << " ";
+
+		// 把非空的左右子节点放到栈中, 注意：要先放右节点，再放左节点
+		BinaryTreeNode* _pRight = _pCurrentNode->m_pRight;
+		BinaryTreeNode* _pLeft = _pCurrentNode->m_pLeft;
+		if (_pRight)
+			_StackNodes.push(_pRight);
+		if (_pLeft)
+			_StackNodes.push(_pLeft);
 
 	}
 }
@@ -132,7 +138,8 @@ void PreorderTraversal_ByCycle(BinaryTreeNode* pRoot_)
 // 中序遍历 ---- 基于递归
 void InorderTraversal(BinaryTreeNode* pRoot_)
 {
-	if (pRoot_ == nullptr)
+	// 为空时，直接返回
+	if (!pRoot_)
 		return;
 
 	InorderTraversal(pRoot_->m_pLeft);
@@ -143,7 +150,8 @@ void InorderTraversal(BinaryTreeNode* pRoot_)
 // 中序遍历 ---- 基于循环
 void InorderTraversal_ByCycle(BinaryTreeNode* pRoot_)
 {
-	if (pRoot_ == nullptr)
+	// 为空时，直接返回
+	if (!pRoot_)
 		return;
 
 	// 初始化一个栈数据结构
@@ -151,7 +159,7 @@ void InorderTraversal_ByCycle(BinaryTreeNode* pRoot_)
 
 	// 先一股脑地把左子节点放到的栈中， 因为这时栈顶的叶结点就是我们遍历的起点
 	BinaryTreeNode* _pCurrentNode = pRoot_;
-	while (_pCurrentNode != nullptr)
+	while (_pCurrentNode)
 	{
 		_StackNodes.push(_pCurrentNode);
 		_pCurrentNode = _pCurrentNode->m_pLeft; 
@@ -167,7 +175,7 @@ void InorderTraversal_ByCycle(BinaryTreeNode* pRoot_)
 		// 即然遍历到了当前的节点，说明了它的左子树已经遍历完了，不需要管了。 我们现在
 		// 需要关注的是：当前节点的右子树是否为空了, 如果不为空，则需要去处理一下了。
 		_pCurrentNode = _pCurrentNode->m_pRight;
-		while (_pCurrentNode != nullptr)
+		while (_pCurrentNode)
 		{
 			_StackNodes.push(_pCurrentNode);
 			_pCurrentNode = _pCurrentNode->m_pLeft; 
@@ -178,7 +186,8 @@ void InorderTraversal_ByCycle(BinaryTreeNode* pRoot_)
 // 后序遍历 ---- 基于递归
 void PostorderTraversal(BinaryTreeNode* pRoot_)
 {
-	if (pRoot_ == nullptr)
+	// 为空时，直接返回
+	if (!pRoot_)
 		return;
 
 	PostorderTraversal(pRoot_->m_pLeft);
@@ -189,7 +198,8 @@ void PostorderTraversal(BinaryTreeNode* pRoot_)
 // 后序遍历 ---- 基于循环
 void PostorderTraversal_ByCycle(BinaryTreeNode* pRoot_)
 {
-	if (pRoot_ == nullptr)
+	// 为空时，直接返回
+	if (!pRoot_)
 		return;
 
 	// 使用一个栈的数据结构
@@ -197,11 +207,11 @@ void PostorderTraversal_ByCycle(BinaryTreeNode* pRoot_)
 
 	// 把我们查找第一个应该遍历的node的路径上经过的所有node按顺序一股脑地压入栈中
 	BinaryTreeNode* _pCurrentNode = pRoot_;
-	while (_pCurrentNode != nullptr)
+	while (_pCurrentNode)
 	{
 		_StackNodes.push(_pCurrentNode);
 		// 优先选择不为空的左节点，如果左节点为空，再考虑右节点（右节点为空也没有关系）
-		if (_pCurrentNode->m_pLeft != nullptr)
+		if (_pCurrentNode->m_pLeft)
 			_pCurrentNode = _pCurrentNode->m_pLeft;
 		else
 			_pCurrentNode = _pCurrentNode->m_pRight;
@@ -222,10 +232,11 @@ void PostorderTraversal_ByCycle(BinaryTreeNode* pRoot_)
 		if (!_StackNodes.empty() && _pCurrentNode == _StackNodes.top()->m_pLeft)
 		{
 			_pCurrentNode = _StackNodes.top()->m_pRight;
-			while (_pCurrentNode != nullptr)
+			while (_pCurrentNode)
 			{
 				_StackNodes.push(_pCurrentNode);
-				if (_pCurrentNode->m_pLeft != nullptr)
+				// 优先选择左节点，当左节点为空时，再选择右节点（右节点为空，也没事）
+				if (_pCurrentNode->m_pLeft)
 					_pCurrentNode = _pCurrentNode->m_pLeft;
 				else
 					_pCurrentNode = _pCurrentNode->m_pRight;
@@ -233,6 +244,31 @@ void PostorderTraversal_ByCycle(BinaryTreeNode* pRoot_)
 		}
 	}
 }
+
+// 宽度优先遍历,就是一层层地遍历。 这肯定是基于单端队列来实现
+void BreadthFirstTraversal(BinaryTreeNode* pRoot_)
+{
+	if (!pRoot_)
+		return;
+
+	std::queue<BinaryTreeNode*> _QueueNodes;
+	_QueueNodes.push(pRoot_);
+	while (!_QueueNodes.empty())
+	{
+		BinaryTreeNode* _pCurrentNode = _QueueNodes.front();
+		_QueueNodes.pop();
+		std::cout << _pCurrentNode->m_nValue << " ";
+
+		// 把当前节点的左右非空子节点放入到队列中
+		BinaryTreeNode* _pLeft = _pCurrentNode->m_pLeft;
+		BinaryTreeNode* _pRight = _pCurrentNode->m_pRight;
+		if (_pLeft)
+			_QueueNodes.push(_pLeft);
+		if (_pRight)
+			_QueueNodes.push(_pRight);
+	}
+}
+
 
 /*****************  主函数   ************************/
 int main()
@@ -267,6 +303,10 @@ int main()
 
 	cout << " 后序遍历的结果为: " << endl;
 	PostorderTraversal_ByCycle(_pRoot);
+	cout << endl;
+
+	cout << " 宽度优先遍历的结果为：" << endl;
+	BreadthFirstTraversal(_pRoot);
 	cout << endl;
 
 	return 0;
