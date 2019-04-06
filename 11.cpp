@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年04月06日 星期六 11时06分26秒
-*	Modifed Time: 2019年04月06日 星期六 12时38分26秒
+*	Modifed Time: 2019年04月06日 星期六 12时48分35秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -126,3 +126,9 @@ int main()
 	cout << GetMinNumber(_nArrayD, 5) << endl;
 	return 0;
 }
+
+
+// 二分法的精髓在于： 怎么处理中间值的问题！
+// 个人总结：使用[ ) 来处理范围， 中间值不包含的前半部分，而是包含的后半部分, 所以前半部分
+// 永远可以表示为[begin, middle), 后半部分可以表示为[middle, end)
+// 使用stl容器时，begin()与end()就是迭代器, 使用数组时，begin就是0, end就是数组的长度。
