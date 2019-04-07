@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年04月07日 星期日 13时30分51秒
-*	Modifed Time: 2019年04月07日 星期日 13时56分17秒
+*	Modifed Time: 2019年04月07日 星期日 14时58分45秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -31,14 +31,18 @@ bool HasPath(char* matrix, int rows, int cols, char* str)
 
 	// 遍历矩阵中的每一个位置作为路径的起始处
 	int pathLength = 0;
+	bool _bHasPath = false;
 	for (int i = 0; i < rows; ++i)
 	{
 		for (int j = 0; j < cols; ++j)
 		{
 			if (HasPathCore(matrix, rows, cols, i, j, str, pathLength, visited)
-					return true;
+					return _bHasPath = true;
 		}
 	}
+
+	delete [] visited;
+	return _bHasPath;
 }
 
 	// 对HasPathCore函数的定义
