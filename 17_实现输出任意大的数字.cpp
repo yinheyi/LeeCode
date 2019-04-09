@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年04月09日 星期二 21时42分20秒
-*	Modifed Time: 2019年04月09日 星期二 22时45分01秒
+*	Modifed Time: 2019年04月09日 星期二 23时38分35秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -46,7 +46,7 @@ void PrintOne2MaxDigit(int nDigit_)
 	// 当给定的位数在能表示的范围内时，使用最直接的方法.
 	// 下面 if 语句减1的目的在于：
 	// 计算机虽然能表示最大的整数为n位，但表示不了最大的n位整数。
-	if (nDigit_ < _nMaxDigit - 1)
+	if (nDigit_ <  _nMaxDigit - 1)
 	{
 		// 求给定位数的最大整数+1
 		unsigned long long  _nMaxNumberofNDigit = 1;
@@ -63,8 +63,34 @@ void PrintOne2MaxDigit(int nDigit_)
 	}
 	else
 	{
+		int* _Array = new int[nDigit_ + 1]{0};
+		while (true)
+		{
+			// 进位相关操作
+			_Array[0] += 1;
+			for (int i = 0; i < nDigit_; ++i)
+			{
+				if (_Array[i] / 10)
+				{
+					_Array[i + 1] += 1; 
+					_Array[i] %= 10;
+				}
+				else
+					break;
+			}
 
-		int* _Array = new int[nDigit_];
+			// 判断是否结束
+			if (_Array[nDigit_])
+				break;
+
+			// 输出:先找到第一个不为零的数，然后输出
+			int _nCurrentDigit = nDigit_;
+			while (!_Array[_nCurrentDigit])
+				--_nCurrentDigit;
+			for (int i = _nCurrentDigit; i >=0; --i)
+				std::cout << _Array[i];
+			std::cout << " ";
+		}
 		delete[] _Array;
 	}
 }
