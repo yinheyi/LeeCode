@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年04月09日 星期二 21时42分20秒
-*	Modifed Time: 2019年04月09日 星期二 23时38分35秒
+*	Modifed Time: 2019年04月11日 星期四 22时17分39秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -63,28 +63,28 @@ void PrintOne2MaxDigit(int nDigit_)
 	}
 	else
 	{
-		int* _Array = new int[nDigit_ + 1]{0};
+		// 初始化一个数组
+		int* _Array = new int[nDigit_]{0};
 		while (true)
 		{
 			// 进位相关操作
-			_Array[0] += 1;
-			for (int i = 0; i < nDigit_; ++i)
+			// 使用 i 追踪需要进位的位置, 从数组的下标 0 开始, 只有遇到不需要进位的位，
+			// 立即停止, 最终i会停止在不需要进位的下标处，或者超出了数组的长度
+			int i = 0;
+			while (i < nDigit_ && _Array[i] == 9)
 			{
-				if (_Array[i] / 10)
-				{
-					_Array[i + 1] += 1; 
-					_Array[i] %= 10;
-				}
-				else
-					break;
+				_Array[i] = 0;
+				++i;
 			}
 
-			// 判断是否结束
-			if (_Array[nDigit_])
+			// i 没有越出数组长度时，对应位置加1, 否则停止循环
+			if (i < nDigit_)
+				_Array[i] += 1;
+			else
 				break;
 
 			// 输出:先找到第一个不为零的数，然后输出
-			int _nCurrentDigit = nDigit_;
+			int _nCurrentDigit = nDigit_ - 1;
 			while (!_Array[_nCurrentDigit])
 				--_nCurrentDigit;
 			for (int i = _nCurrentDigit; i >=0; --i)
