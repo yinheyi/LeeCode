@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年04月13日 星期六 23时32分30秒
-*	Modifed Time: 2019年04月14日 星期日 00时23分37秒
+*	Modifed Time: 2019年04月14日 星期日 10时59分26秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -62,9 +62,14 @@ ListNode* FindKthToTailVersion1(ListNode* pRoot_, int k_)
 // 版本2
 ListNode* FindKthToTailVersion2(ListNode* pRoot_, int k_)
 {
+	// 参数的合法性检测
 	if (pRoot_ == nullptr)
 	{
 		throw std::domain_error("参数对应的结果值不存在，该单向链表的长度不足k个");
+	}
+	if (k_ <= 0)
+	{
+		throw std::domain_error("输入的k值不对，请输入大于等于1的整数");
 	}
 
 	ListNode* _pFront = pRoot_;
