@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年04月14日 星期日 11时02分33秒
-*	Modifed Time: 2019年04月14日 星期日 11时25分37秒
+*	Modifed Time: 2019年04月14日 星期日 23时27分19秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -57,8 +57,64 @@ ListNode* FindEntryPoint(const ListNode* pRoot_)
 
 
 // 版本二：
+// 书中的思路：
+// 1. 判断一个链表中是否存在环？
+//    使用两个指针，都同时从链表头出发，一个一次走一步，一个一次走两步。如果存在着环，它
+//    们会相遇，如果不存在环，则走的快的指针会遇到nullptr
+// 2. 如何求环中的结点个数？
+// 	  在1中，两个指针相遇的地方一定在环内，在此处开始计数，一步步走直到再次直到这个位置,
+// 	  此时，通过计数值就可以知道环的结点个数了。
+// 3. 如何找到环的入口？
+// 	  假设环内的节点个数为n, 再次使用两个指针，第一个指针先走n步，然后两个指针再一起走，
+// 	  两个指针相遇时，第二个指针的位置就是环的入口结点。
 //
+ListNode* FindEntryPointVersion2(const ListNode* pRoot_)
+{
+	// 参数检测
+	if (pRoot_ == nullptr)
+		return nullptr;
 
+	// 判断链表中是否存在着环
+	ListNode* _pFirst = const_cast<ListNode*>(pRoot_);
+	ListNode* _pSecond = _pFirst;
+	while (_pFirst != _pSecond)
+	{
+		// 第一个指针走两步, 遇到空时直接返回空
+		_pFirst = _pFirst->m_pNext;
+		if (_pFirst == nullptr)
+			return nullptr;
+		_pFirst = _pFirst->m_pNext;
+		if (_pFirst == nullptr)
+			return nullptr;
+
+		// 第二个指针走一步
+		_pSecond = _pSecond->m_pNext;
+	}
+
+	// 求环中结点的个数
+	unsigned int _nNumOfNodes = 0;
+	_pFirst = _pFirst->m_pNext;
+	++_nNumOfNodes;
+	while (_pFirst != _pSecond)
+	{
+		_pFirst = _pFirst->m_pNext;
+		++_nNumOfNodes;
+	}
+
+	// 求环的入口结点
+	_pFirst = const_cast<ListNode*>(pRoot_);
+	_pSecond = _pFirst;
+	// 第一个指针先走n步
+	for (int i = 0; i < _nNumOfNodes; ++i)
+		_pFirst = _pFirst->m_pNext;
+	while (_pFirst != _pSecond)
+	{
+		_pFirst = _pFirst->m_pNext;
+		_pSecond = _pSecond->m_pNext;
+	}
+
+	return _pFirst;
+}
 
 /*******************   主函数    *********************/
 int main()
