@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年04月15日 星期一 23时11分22秒
-*	Modifed Time: 2019年04月15日 星期一 23时46分41秒
+*	Modifed Time: 2019年04月16日 星期二 22时26分30秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -37,7 +37,7 @@ BinaryTreeNode::BinaryTreeNode()
 // Thinking: define a function to determine if Tree B is substructure of Binary Tree A  
 // using recursive struct.
 // the input are two pointer to Node, the return value is boolean value.
-#define DOUBLE_EQU(x,y) ((x) - (y) <= 1.0e-9)
+#define DOUBLE_EQU(x,y) ((x) - (y) <= 1.0e-9 || (x) - (y) >= -1.0e-9)
 typedef bool (*pFunc)(const BinaryTreeNode*, const BinaryTreeNode*);
 bool IsSubstructure(const BinaryTreeNode* pNodeA_, const BinaryTreeNode* pNodeB_)
 {
