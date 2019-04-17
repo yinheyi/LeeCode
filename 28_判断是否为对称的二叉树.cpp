@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年04月17日 星期三 21时45分56秒
-*	Modifed Time: 2019年04月17日 星期三 23时22分39秒
+*	Modifed Time: 2019年04月17日 星期三 23时25分13秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -56,7 +56,7 @@ void InorderTraversal(IN const BinaryTreeNode* pRoot_, IN callback pFunc_,
 	// the binary tree is not symmetrical, we also should collect nullptr pointer.
 	if (pRoot_ == nullptr)
 	{
-		NodeContainer_.push_back(pRoot_);
+		pFunc_(pRoot_, NodeContainer_);
 		return;
 	}
 
