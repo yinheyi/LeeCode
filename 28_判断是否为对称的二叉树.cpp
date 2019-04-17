@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年04月17日 星期三 21时45分56秒
-*	Modifed Time: 2019年04月17日 星期三 23时00分15秒
+*	Modifed Time: 2019年04月17日 星期三 23时22分39秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -108,6 +108,24 @@ bool IsSymmetricalBinaryTree(const BinaryTreeNode* pRoot_)
 	return true;
 }
 
+// the answer in the book
+// It is so clean !!!!!!!!1
+bool IsSymmetrical_Core(BinaryTreeNode* pFirst_, BinaryTreeNode* pSecond_)
+{
+	if (pFirst_ == nullptr && pSecond_ == nullptr)
+		return true;
+	if (pFirst_ == nullptr || pSecond_ == nullptr)
+		return false;
+	if (pFirst_->m_nValue != pSecond_->m_nValue)
+		return false;
+	return IsSymmetrical_Core(pFirst_->m_pLeft, pSecond_->m_pRight)
+		&& IsSymmetrical_Core(pFirst_->m_pRight, pSecond_->m_pLeft);
+}
+
+bool isSymmetrical(BinaryTreeNode* pRoot_)
+{
+	return IsSymmetrical_Core(pRoot_, pRoot_);
+}
 
 /*******************    main.c     ***************/
 int main()
