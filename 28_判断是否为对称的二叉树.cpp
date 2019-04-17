@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年04月17日 星期三 21时45分56秒
-*	Modifed Time: 2019年04月17日 星期三 22时41分41秒
+*	Modifed Time: 2019年04月17日 星期三 23时00分15秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -52,9 +52,13 @@ typedef void (*callback)(IN const BinaryTreeNode*, IN OUT vecNodes&);
 void InorderTraversal(IN const BinaryTreeNode* pRoot_, IN callback pFunc_,
 						IN OUT vecNodes& NodeContainer_)
 {
-	// when the tree is empty, return directly.
+	// In order to distingguish the situation where the nodes'values are all same but
+	// the binary tree is not symmetrical, we also should collect nullptr pointer.
 	if (pRoot_ == nullptr)
+	{
+		NodeContainer_.push_back(pRoot_);
 		return;
+	}
 
 	// others
 	InorderTraversal(pRoot_->m_pLeft, pFunc_, NodeContainer_);
@@ -83,10 +87,23 @@ bool IsSymmetricalBinaryTree(const BinaryTreeNode* pRoot_)
 	unsigned int _nEnd = _nSize - 1;
 	while (_nStart < _nEnd)
 	{
+		if (_NodeContainer[_nStart] == nullptr && _NodeContainer[_nEnd] == nullptr)
+		{
+			++_nStart;
+			--_nEnd;
+			continue;
+		}
+
 		if (_NodeContainer[_nStart]->m_nValue != _NodeContainer[_nEnd]->m_nValue)
+		{
 			return false;
-		++_nStart;
-		--_nEnd;
+		}
+		else
+		{
+			++_nStart;
+			--_nEnd;
+			continue;
+		}
 	}
 	return true;
 }
