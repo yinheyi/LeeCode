@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年04月17日 星期三 23时27分56秒
-*	Modifed Time: 2019年04月18日 星期四 23时04分01秒
+*	Modifed Time: 2019年04月19日 星期五 22时13分21秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -33,11 +33,11 @@ void RotateMatix(int* matrix, int& nRow_, int& nColumn_)
 
 	for (int i = 0; i < nRow_; ++i)
 	{
-		for (int j = 0; i < nColumn_; ++j)
+		for (int j = 0; j < nColumn_; ++j)
 		{
 			int _nNewRowIndex = nColumn_ - 1 - j;
 			int _nNewColumnIndex = i;
-			*(_newMatrix + _nNewRowIndex * _newRow + _nNewColumnIndex) = *(matrix + i * nRow_ + j);
+			*(_newMatrix + _nNewRowIndex * _newColumn + _nNewColumnIndex) = *(matrix + i * nColumn_ + j);
 		}
 	}
 
@@ -48,7 +48,7 @@ void RotateMatix(int* matrix, int& nRow_, int& nColumn_)
 }
 
 // define a function to output first row
-void OutputFirstRow(int* matrix, int& nRow_, int& nColumn_)
+void OutputFirstRow(int*& matrix, int& nRow_, int& nColumn_)
 {
 	if (nRow_ <= 0 || nColumn_ <= 0)
 		return;
@@ -68,10 +68,12 @@ int main(int argc, char* argv[])
 	int _nRow = 4;
 	int _nColumn = 4;
 	int matrix[16] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+	int* _pCursor = matrix;
 	while (_nRow > 0 && _nColumn > 0)
 	{
-		OutputFirstRow(matrix, _nRow, _nColumn);
-		RotateMatix(matrix, _nRow, _nColumn);
+		OutputFirstRow(_pCursor, _nRow, _nColumn);
+		std::cout << std::endl;
+		RotateMatix(_pCursor, _nRow, _nColumn);
 	}
 
 	return 0;
