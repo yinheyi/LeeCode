@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年04月26日 星期五 22时31分31秒
-*   Modifed Time: 2019年04月26日 星期五 23时18分38秒
+*   Modifed Time: 2019年04月26日 星期五 23时52分04秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -19,6 +19,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <cassert>
+#include <set>
 // 题目：输入n个数，找出最小的k个数。
 //
 // 思路：借助快速排序的想法: 1. 把数组分为两部分，前半部分小于后半部分. 
@@ -118,6 +119,37 @@ int Partition(int array[], int nLength, int nStart, int nEnd)
 }
 
 
+// 另一个思路，借助multiset来实现， 复杂度为o(nlogk)
+void OutputNumbers_Version2(int array[], int nLength, int k)
+{
+	typedef std::multiset<int, std::greater<int>> _DescendSet;
+	_DescendSet _set;
+
+	if (k < 1 || nLength < k || array == nullptr)
+		return;
+
+	for (int i = 0; i < nLength; ++i)
+	{
+		if (_set.size() < k)
+		{
+			_set.insert(array[i]);
+		}
+		else
+		{
+			if (array[i] < *_set.begin())
+			{
+				_set.erase(_set.begin());
+				_set.insert(array[i]);
+			}
+		}
+	}
+
+	for (_DescendSet::iterator _it = _set.begin(); _it != _set.end(); ++_it)
+	{
+		std::cout << *_it << " ";
+	}
+}
+
 /***************    main.c     *********************/
 int main(int argc, char* argv[])
 {
@@ -132,6 +164,7 @@ int main(int argc, char* argv[])
 		}
 		std::cout << std::endl;
 		OutputNumbers(array, 10, 5);
+		OutputNumbers_Version2(array, 10, 5);
 		std::cout << std::endl;
 	}
 	return 0;
