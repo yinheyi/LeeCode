@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年04月28日 星期日 07时15分21秒
-*   Modifed Time: 2019年04月28日 星期日 23时35分27秒
+*   Modifed Time: 2019年04月28日 星期日 23时47分16秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -44,17 +44,17 @@
 int Numof1(int number)
 {
 	int nSum = 0;
-	int nFactor = 10;
+	int nFactor = 10;	//初始化除数因子为10
 	while (true)
 	{
-		int nQuotient = number / nFactor;
-		int nModulus = number % nFactor;
-		int nDeci = nFactor / 10;
+		int nQuotient = number / nFactor;	// 商
+		int nModulus = number % nFactor;	// 除
+		int nDeci = nFactor / 10;			// 因子的1/10.
 
-		// a...........
-		if (nModulus  <  nDeci)
+		// 规律公式中的第二部分
+		if (nModulus  >= 2 * nDeci)
 		{
-			// do nothting.
+			nSum += nDeci;
 		}
 		else if (nModulus >= nDeci && nModulus < 2 * nDeci)
 		{
@@ -62,18 +62,18 @@ int Numof1(int number)
 		}
 		else
 		{
-			nSum += nDeci;
+			// do nothting.
 		}
 
-		// d.......
-		if (nQuotient == 0)
-		{
-			break;
-		}
-		else
+		// 规律公式中的第一部分
+		if (nQuotient != 0)
 		{
 			nSum += nQuotient * nDeci;
 			nFactor *= 10;
+		}
+		else
+		{
+			break;
 		}
 	}
 
