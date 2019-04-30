@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年04月29日 星期一 22时57分43秒
-*   Modifed Time: 2019年04月29日 星期一 23时47分03秒
+*   Modifed Time: 2019年04月30日 星期二 23时58分27秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -37,37 +37,33 @@ int GetTranslationCount(int nNumber)
 		throw std::invalid_argument("参数不合法");
 	}
 
+	// 当小于10时，直接返回1
+	if (nNumber < 10)
+	{
+		return 1;
+	}
+
 	// 检测之前有没有计算过该结果， 对于map来说，如果之前没有存放在map中，则会初始化为0
 	if (_mapNum2Count[nNumber] != 0)
 		return _mapNum2Count[nNumber];
 
-	// 当小于10时，返回1
-	if (nNumber < 10)
+	// 求去掉右边1位后表示的剩余数字及该数字可以翻译的种数.
+	int _nLeft1 = nNumber / 10;
+	int _nCount1 = GetTranslationCount(_nLeft1);
+	_mapNum2Count[_nLeft1] = _nCount1;		// 保存中间结果
+	// 根据最右边的两位数字来判断能否对最右边两位进行翻译
+	if (nNumber % 100  <= 25)
 	{
-		_mapNum2Count[nNumber] = 1;		//保存中间结果
-		return 1;
+		// 求去掉右边两位后表示的剩余数字及该数字可以翻译的种数.
+		int _nLeft2 = nNumber / 100;
+		int _nCount2 = GetTranslationCount(_nLeft2);
+		_mapNum2Count[_nLeft2] = _nCount2;		// 保存中间结果
+
+		return _nCount1 + _nCount2;
 	}
 	else
 	{
-		// 求去掉右边1位后表示的剩余数字及该数字可以翻译的种数.
-		int _nLeft1 = nNumber / 10;
-		int _nCount1 = GetTranslationCount(_nLeft1);
-		_mapNum2Count[_nLeft1] = _nCount1;		// 保存中间结果
-		
-		// 求最右边的两位数字, 需要根据它来判断能否对最右边两位进行翻译
-		if (nNumber % 100  <= 25)
-		{
-			// 求去掉右边两位后表示的剩余数字及该数字可以翻译的种数.
-			int _nLeft2 = nNumber / 100;
-			int _nCount2 = GetTranslationCount(_nLeft2);
-			_mapNum2Count[_nLeft2] = _nCount2;		// 保存中间结果
-
-			return _nCount1 + _nCount2;
-		}
-		else
-		{
-			return _nCount1;
-		}
+		return _nCount1;
 	}
 }
 
