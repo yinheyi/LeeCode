@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年05月03日 星期五 17时51分56秒
-*   Modifed Time: 2019年05月03日 星期五 18时08分09秒
+*   Modifed Time: 2019年05月03日 星期五 22时08分27秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -51,6 +51,33 @@ int TreeDepth(BinaryTreeNode* pRoot_)
 	int nRightDepth = TreeDepth(pRoot_->m_pRight);
 
 	return nLeftDepth > nRightDepth ? (nLeftDepth + 1) : (nRightDepth + 1);
+}
+
+
+// 题目二：判断一个树是不是一棵平衡二叉树。
+#define MAX(x,y) ((x) > (y) ? (x) : (y))
+#define ABS(x) ((x) > 0 ? (x) : -1*(x))
+bool IsBalancedTree(BinaryTreeNode* pRoot_, int& nDepth_)
+{
+	if (pRoot_ == nullptr)
+	{
+		nDepth_ = 0;
+		return true;
+	}
+
+	int nLeftDepth = 0;
+	bool _bLeft = IsBalancedTree(pRoot_->m_pLeft, nLeftDepth);
+	int nRightDepth = 0;
+	bool _bRight = IsBalancedTree(pRoot_->m_pRight, nRightDepth);
+	nDepth_ = MAX(nLeftDepth,nRightDepth) + 1;
+	if (_bLeft && _bRight && ABS(nLeftDepth - nRightDepth) <= 1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 /***************    main.c     *********************/
