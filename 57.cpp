@@ -10,7 +10,7 @@
 *   Email: chinayinheyi@163.com
 *   Version: 1.0
 *   Created Time: 2019年05月04日 星期六 10时57分17秒
-*   Modifed Time: 2019年05月04日 星期六 13时43分02秒
+*   Modifed Time: 2019年05月04日 星期六 14时23分46秒
 *   Blog: http://www.cnblogs.com/yinheyi
 *   Github: https://github.com/yinheyi
 *   
@@ -84,6 +84,45 @@ void GetTwoNumber(int array[], int nLength_, int key, int& number1, int& number2
 	}
 }
 
+
+// 题目二：和为s的连续正数序列
+//
+void PrintContinousSequence(int array[], int nLength_, int key)
+{
+	if (array == nullptr || nLength_ < 2)
+		return;
+
+	int _nSmallIndex = 0;
+	int _nBigIndex = 1;
+	int _nSum = array[0] + array[1];
+	while (_nSmallIndex < _nBigIndex)
+	{
+		if (_nSum == key)
+		{
+			std::cout << array[_nSmallIndex ] << "~" << array[_nBigIndex] << std::endl;
+
+			_nSum -= array[_nSmallIndex];
+			++_nSmallIndex;
+		}
+		else if (_nSum > key)
+		{
+			_nSum -= array[_nSmallIndex];
+			++_nSmallIndex;
+		}
+		else		// 对应_nSum < key
+		{
+			++_nBigIndex;
+			if (_nBigIndex >= nLength_)
+			{
+				assert(false);
+				break;
+			}
+			_nSum += array[_nBigIndex];
+		}
+	}
+}
+
+
 /***************    main.c     *********************/
 int main(int argc, char* argv[])
 {
@@ -93,6 +132,9 @@ int main(int argc, char* argv[])
 	int number2 = 0;
 	GetTwoNumber(test1, 6, 15, number1, number2);
 	std::cout << number1 << " " << number2 << std::endl;
+
+	int test2[15] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+	PrintContinousSequence(test2, 15, 15);
 	return 0;
 }
 
