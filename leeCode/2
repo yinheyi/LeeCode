@@ -1,0 +1,74 @@
+class Solution {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        vector<int> counts(nums.size(), 0);
+        const int length = nums.size();
+
+        for (int i = length - 1; i >= 0; --i) {
+            int curCount = 0;
+
+            const int target = nums[i];
+            int start = i + 1;
+            int end = length;
+            while (start < end - 1) {
+                const int middle = (start + end) / 2;
+                if (target <= nums[middle]) {
+                    end = middle;
+                } else {
+                    start = middle;
+                }
+            }
+
+            if (start < length && nums[start] < target) {
+                counts[i] = start - i;
+            }
+            if (counts[i] > 0) {
+                memmove(&nums[i], &nums[i+1], sizeof(int) * counts[i]);
+                nums[start] = target;
+            }
+        }
+        return counts;
+    }
+};
+
+
+class Solution {
+public:
+    vector<int> countSmaller(vector<int>& nums)
+    {
+    }
+
+    void MergeSort(const vector<int>& nums, vector<int>& counts,
+                  int left, int right, vector<int>& index)
+    {
+        if (left = right - 1) {
+            return;
+        }
+
+        const int middle = (left + right) / 2;
+        MergeSort(nums, counts, left, middle, index);
+        MergeSort(nums, counts, middle, right, index);
+        Merge(nums, counts, left, middle, right, index);
+    }
+
+    void Merge(const vector<int>& nums, vector<int>& counts,
+              int left, int middle, int right, vector<int>& index)
+    {
+        vector<int> temp;
+        int const middleEnd = middle;
+        while (left < middleEnd && middle < right) {
+            if (nums[index[left]] <= nums[index[middle]]) {
+                temp.push_back(index[left]);
+                ++left;
+            } else {
+                temp.push_back(index[middle]);
+                ++middle;
+                for (int i = left; i < middleEnd; ++i) {
+                    ++counts[index[i]];
+                }
+            }
+        }
+
+
+    }
+};
