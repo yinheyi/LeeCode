@@ -1,11 +1,10 @@
 #include <algorithm>
 #include <vector>
 
-// 超时了
-
 using namespace std;
 
-class Solution {
+// 超时了
+class Solution1 {
 public:
     int majorityElement(vector<int>& nums) {
         int left = 0;
@@ -30,5 +29,26 @@ public:
             }
         }
         return nums[left];
+    }
+};
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        if (nums.empty()) {
+            return 0;
+        }
+
+        int currentValue = nums[0];
+        int vote = 1;
+        for (size_t i = 1; i < nums.size(); ++i) {
+            if (nums[i] == currentValue) {
+                ++vote;
+            } else if (--vote == 0) {
+                vote = 1;
+                currentValue = nums[i];
+            }
+        }
+        return currentValue;
     }
 };
