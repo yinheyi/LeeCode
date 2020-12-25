@@ -1,19 +1,12 @@
 #include <vector>
+#include <iostream>
 #include <string>
 
 using namespace std;
 
-class Solution {
-public:
-    string shortestPalindrome(string s) {
-
-    }
-};
-
-
 // KMP算法
 // 第一步：求字符串的最长公共前后缀。
-void GetPublicPrePostFix(const string& str, vector<int> output) {
+void GetPublicPrePostFix(const string& str, vector<int>& output) {
     output.resize(str.size(), 0);
     for (size_t i = 1; i < str.size(); ++i) {
         // 找到那一个可能的最长公共前后缀
@@ -29,19 +22,54 @@ void GetPublicPrePostFix(const string& str, vector<int> output) {
 // 第二步：求模式串的位置
 bool hasSubStr(const string& origin, const string& pattern) {
 
+    vector<int> table;
+    GetPublicPrePostFix(pattern, table);
+
     int index = 0;
     for (size_t i = 0; i < origin.size(); ++i) {
+        // 找到那个与第i元素相同的下标index, 或者index=0
         while (index > 0 && origin[i] != pattern[index]) {
             index = table[index - 1];
         }
 
+        // 更新index,变成下一轮要对比位置下标。
         if (origin[i] == pattern[index]) {
             index += 1;
         }
 
-        if (index == pattern) {
+        if (index == pattern.size()) {
             return true;
         }
     }
     return false;
+}
+
+class Solution {
+public:
+    string shortestPalindrome(string s) {
+        string text(s.rbegin(), s.rend());
+        vector<int> table;
+        GetPublicPrePostFix(s, table);
+
+        int index = 0;
+        for (size_t i = 0; i < text.size(); ++i) {
+            while (s[index] != text[i] && index > 0) {
+                index = table[index - 1];
+            }
+            if (s[index] == text[i]) {
+                ++index;
+            }
+        }
+        return text + s.substr(index);
+    }
+};
+
+int main() {
+    Solution solver;
+    while (true) {
+        string input;
+        cin >> input;
+        cout << solver.shortestPalindrome(input) << endl;
+    }
+    return 0;
 }
