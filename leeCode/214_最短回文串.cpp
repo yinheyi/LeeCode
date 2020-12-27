@@ -4,8 +4,7 @@
 
 using namespace std;
 
-// KMP算法
-// 第一步：求字符串的最长公共前后缀。
+// 第一步：求模式字符串的最长公共前后缀。
 void GetPublicPrePostFix(const string& str, vector<int>& output) {
     output.resize(str.size(), 0);
     for (size_t i = 1; i < str.size(); ++i) {
@@ -19,7 +18,7 @@ void GetPublicPrePostFix(const string& str, vector<int>& output) {
     }
 }
 
-// 第二步：求模式串的位置
+// 第二步：在原字符串中查找是否存在模式串
 bool hasSubStr(const string& origin, const string& pattern) {
 
     vector<int> table;
